@@ -1,7 +1,36 @@
 /* fse.c */
 #include "fse.h"
 
+int8 *securerand(int16 size) {
+    int8 *start, *p;
+    size_t n;
 
+    assert(size > 0);
+    p = (int8 *)malloc(size);
+    assert(p);
+    start = p;
+
+    n = getrandom(p, (size_t)size, 
+        GRND_RANDOM|GRND_NONBLOCK);
+
+    if (n == size)
+        return p;
+    else if (n < 0)
+        free(p);
+        return 0;
+    
+    fprintf(stderr, "Warning: Entropy pool is "
+        " empty. This may take longer than usual.\n");
+    p += n;
+    n = getrandom(p, (size-n), GRND_RANDOM);
+
+    if (n == size)
+        return start;
+    else {
+        free(start);
+        return 0;
+    }
+}
 
 int main(int argc, char *argv[]) {
     Arcfour *rc4;
