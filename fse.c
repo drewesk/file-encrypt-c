@@ -79,5 +79,4 @@ int main(int argc, char *argv[]) {
     free(padsize8);
 
     return 0;
-
 }
