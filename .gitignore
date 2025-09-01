@@ -12,5 +12,5 @@ a.out
 *.swp
 *.tmp
 *.log
-
+*.zip
 libarcfour.so
