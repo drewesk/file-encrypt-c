@@ -1,0 +1,16 @@
+# Compiled object files
+*.o
+
+# Executable/test binaries
+example
+a.out
+*.exe
+*.out
+
+# Debug symbols & temp files
+*.dSYM/
+*.swp
+*.tmp
+*.log
+
+libarcfour.so

@@ -1,3 +1,4 @@
+Via the Arc4 lib, the rest of the code was writen by Andrew Eskenazi
 Code may be used however you wish, as long as you link to the Youtube channel of dr Jonas Birch.
 
  @dr-jonas-birch
