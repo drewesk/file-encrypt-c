@@ -11,25 +11,7 @@ int8 *securerand(int16 size) {
     start = p;
 
     arc4random_buf(p, (size_t)size);
-    n = size;
-
-    if (n == size)
-        return p;
-    else if (n < 0)
-        free(p);
-        return 0;
-    
-    fprintf(stderr, "Warning: Entropy pool is "
-        " empty. This may take longer than usual.\n");
-    p += n;
-    n = getrandom(p, (size-n), GRND_RANDOM);
-
-    if (n == size)
-        return start;
-    else {
-        free(start);
-        return 0;
-    }
+    return p;
 }
 
 int main(int argc, char *argv[]) {
@@ -53,7 +35,7 @@ int main(int argc, char *argv[]) {
     outfile = argv[2];
 
     infd = open(infile, O_RDONLY);
-    if (infile < 1) {
+    if (infd < 1) {
         perror("open");
         return -1;
     }
@@ -64,9 +46,6 @@ int main(int argc, char *argv[]) {
         perror("open");
         return -1;
     }
-
-    // key = readkey("Key:");
-    // assert(key);
 
     keysize = (int16)strlen((char *)key);
     padsize8 = securerand(2);

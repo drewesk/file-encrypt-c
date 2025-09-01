@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <arcfour.h>
+#include "arcfour.h"
 #include <assert.h>
 #include <sys/random.h>
 #include <fcntl.h>
