@@ -8,7 +8,10 @@ export Arcfour *rc4init(int8 *key, int16 size) {
     int32 n;
 
     if (!(p = malloc(sizeof(struct s_arcfour))))
-        assert_perror(errno);
+        if (errno) {
+            perror("system call failed");
+            exit(EXIT_FAILURE);
+        }
 
     for (x=0; x<256; x++)
         p->s[x] = 0;
@@ -56,7 +59,10 @@ export int8 *rc4encrypt(Arcfour *p, int8 *cleartext, int16 size) {
 
     ciphertext = (int8 *)malloc(size+1);
     if (!ciphertext)
-        assert_perror(errno);
+        if (errno) {
+            perror("system call failed");
+            exit(EXIT_FAILURE);
+        }
 
     for (x=0; x<size; x++)
          ciphertext[x] = cleartext[x] ^ rc4byte(p);

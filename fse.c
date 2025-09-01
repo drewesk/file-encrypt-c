@@ -10,8 +10,8 @@ int8 *securerand(int16 size) {
     assert(p);
     start = p;
 
-    n = getrandom(p, (size_t)size, 
-        GRND_RANDOM|GRND_NONBLOCK);
+    arc4random_buf(p, (size_t)size);
+    n = size;
 
     if (n == size)
         return p;
