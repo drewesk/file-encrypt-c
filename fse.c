@@ -2,32 +2,51 @@
 #include "fse.h"
 
 int8 *securerand(int16 size) {
-    int8 *start, *p;
-    size_t n;
+    int8 *p;
 
     assert(size > 0);
     p = (int8 *)malloc(size);
     assert(p);
-    start = p;
 
     arc4random_buf(p, (size_t)size);
     return p;
 }
 
+int8 *readkey(char *prompt) {
+    char buf[256];
+    int8 *p;
+    int8 size, idx;
+
+    printf("%s", prompt);
+    fflush(stdout);
+
+    memset(buf, 0, 256);
+    read(0, buf, 255);
+    size = (int8)strlen(buf);
+
+    // abcd\n = 5
+    // 01234
+    idx = size - 1;
+    p = (int8 *)buf + idx;
+    *p = 0;
+
+    p = (int8 *)malloc(size);
+    assert(p);
+    strncpy((char *)p, buf, idx);
+
+    return p;
+}
+
 int main(int argc, char *argv[]) {
-    Arcfour *rc4;
     char *infile, *outfile;
     int infd, outfd;
     int8 *key;
-    int16 keysize;
     int16 padsize;
     int16 *padsize16;
     int8 *padsize8;
-    int8 *padding;
 
     if (argc < 3) {
-        fprintf(stderr, 
-            "Usage: %s <infile> <outfile>\n", *argv);
+        fprintf(stderr, "Usage: %s <infile> <outfile>\n", *argv);
         return -1;
     }
 
@@ -47,7 +66,9 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    keysize = (int16)strlen((char *)key);
+    key = readkey("Key:");
+    assert(key);
+
     padsize8 = securerand(2);
     padsize16 = (int16 *)padsize8;
     padsize = *padsize16;

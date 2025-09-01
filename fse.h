@@ -11,5 +11,5 @@
 #include <fcntl.h>
 
 int8 *securerand(int16);
-int8 *readkey(int8*);
+int8 *readkey(char*);
 int main(int,char**);
